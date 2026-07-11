@@ -8,6 +8,9 @@ import warnings
 warnings.simplefilter(action="ignore", category="SettingWithCopyWarning")
 import streamlit as st
 
+warnings.warn = original_warn
+warnings.warn = lambda *args, **kwargs: None
+
 ## streamlit page configuration
 st.set_page_config(page_title="Car Auction Analysis", layout="wide")
 
@@ -799,3 +802,5 @@ st.markdown("""
 * Mission is to find the state where the price difference is considerably low and good amount of XLTs are sold.
 * The states "ab" and "ut" conforms to the specification.
 """, unsafe_allow_html=True)
+
+warnings.warn = original_warn
