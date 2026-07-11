@@ -22,7 +22,7 @@ st.markdown(body="### 1.1. Profiling of used car auction data", unsafe_allow_htm
 
 ## dataframe
 # dataframe
-data_link = st.secrets["car_prices_parquet"]
+data_link = st.secrets["car_prices"]
 @st.cache_data
 def load_data(data_link):
     return pd.read_parquet(data_link)
