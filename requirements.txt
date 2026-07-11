@@ -1,7 +1,6 @@
 numpy
 pandas
-matplotlib.pyplot
-matplotlib.patches
+matplotlib
 seaborn
 warnings
 streamlit
