@@ -8,7 +8,7 @@ import warnings
 warnings.simplefilter(action="ignore", category="SettingWithCopyWarning")
 import streamlit as st
 
-warnings.warn = original_warn
+original_warn = warnings.warn
 warnings.warn = lambda *args, **kwargs: None
 
 ## streamlit page configuration
