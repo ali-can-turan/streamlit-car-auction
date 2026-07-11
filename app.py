@@ -8,11 +8,12 @@ import warnings
 warnings.simplefilter(action="ignore", category="SettingWithCopyWarning")
 import streamlit as st
 
-original_warn = warnings.warn
-warnings.warn = lambda *args, **kwargs: None
 
 ## streamlit page configuration
 st.set_page_config(page_title="Car Auction Analysis", layout="wide")
+
+## info
+info = st.info("It might take up to 1 minute to render!")
 
 ## title
 st.title("Analysis of car auctions in the US")
@@ -39,8 +40,14 @@ with st.expander(label="Data description:"):
 ## global settings
 # plt.rcParams['figure.figsize'] = (10, 6)
 sns.set_style("darkgrid")
+original_warn = warnings.warn
+warnings.warn = lambda *args, **kwargs: None
 with st.expander(label="Code | Global settings:"):
-	st.code("""sns.set_style("darkgrid")""")
+	st.code("""
+sns.set_style("darkgrid"), sns.set_style("darkgrid")
+original_warn = warnings.warn
+warnings.warn = lambda *args, **kwargs: None
+""")
 
 ## header-2
 st.markdown("""### 1.2. Get the relationship matrix of numeric columns with a pairplot, on selected body types""", unsafe_allow_html=True)
@@ -803,4 +810,5 @@ st.markdown("""
 * The states "ab" and "ut" conforms to the specification.
 """, unsafe_allow_html=True)
 
+info.empty()
 warnings.warn = original_warn
