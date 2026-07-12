@@ -8,9 +8,19 @@ import warnings
 warnings.simplefilter(action="ignore", category="SettingWithCopyWarning")
 import streamlit as st
 
-
-## streamlit page configuration
+## global settings
 st.set_page_config(page_title="Car Auction Analysis", layout="wide")
+# plt.rcParams['figure.figsize'] = (10, 6)
+sns.set_style("darkgrid")
+original_warn = warnings.warn
+warnings.warn = lambda *args, **kwargs: None
+with st.expander(label="Code | Global settings:"):
+	st.code("""
+st.set_page_config(page_title="Car Auction Analysis", layout="wide")
+sns.set_style("darkgrid"), sns.set_style("darkgrid")
+original_warn = warnings.warn
+warnings.warn = lambda *args, **kwargs: None
+""")
 
 ## info
 info = st.info("It might take up to 1 minute to render!")
@@ -37,29 +47,12 @@ st.dataframe(data=cars.head())
 with st.expander(label="Data description:"):
 	st.dataframe(data=cars.describe())
 
-## global settings
-# plt.rcParams['figure.figsize'] = (10, 6)
-sns.set_style("darkgrid")
-original_warn = warnings.warn
-warnings.warn = lambda *args, **kwargs: None
-with st.expander(label="Code | Global settings:"):
-	st.code("""
-sns.set_style("darkgrid"), sns.set_style("darkgrid")
-original_warn = warnings.warn
-warnings.warn = lambda *args, **kwargs: None
-""")
 
 ## header-2
 st.markdown("""### 1.2. Get the relationship matrix of numeric columns with a pairplot, on selected body types""", unsafe_allow_html=True)
 
-## sampled data
-cars_sampled = cars.sample(n=50000, random_state=42, replace=False, axis=0)
-with st.expander(label="Code | Sampled data:"):
-	st.code("""cars_sampled = cars.sample(n=50000, random_state=42, replace=False, axis=0)""")
-
-
-
 ## graph-1 pairplot: comparison of numeric columns
+cars_sampled = cars.sample(n=50000, random_state=42, replace=False, axis=0)
 style_list = ["SUV", "Sedan", "Convertible", "Coupe"]
 @st.cache_data
 def pairplot():
@@ -85,26 +78,27 @@ g.add_legend(loc='upper right',
 			 edgecolor="black")
 with st.expander(label="Code | Pair plot, comparison of numeric columns:"):
 	st.code("""
-	style_list = ["SUV", "Sedan", "Convertible", "Coupe"]
-	g = sns.pairplot(
-		data=cars_sampled.loc[cars_sampled["body"].isin(style_list), :],
-		hue="body",
-		palette="husl",
-		# kind="reg",
-		aspect=1.25,
-		dropna=True,
-		corner=True,
-		diag_kws={"bw_adjust":0.8}
-	)
-	g.fig.suptitle("Comparison of Numeric Columns", fontsize=20, fontweight="bold")
-	g.legend.remove()
-	g.add_legend(loc='upper right',
-				 bbox_to_anchor=(0.95, 0.95),
-				 title="Body",
-				 fontsize=12,
-				 frameon=True,
-				 facecolor="grey",
-				 edgecolor="black")
+cars_sampled = cars.sample(n=50000, random_state=42, replace=False, axis=0)
+style_list = ["SUV", "Sedan", "Convertible", "Coupe"]
+g = sns.pairplot(
+	data=cars_sampled.loc[cars_sampled["body"].isin(style_list), :],
+	hue="body",
+	palette="husl",
+	# kind="reg",
+	aspect=1.25,
+	dropna=True,
+	corner=True,
+	diag_kws={"bw_adjust":0.8}
+)
+g.fig.suptitle("Comparison of Numeric Columns", fontsize=20, fontweight="bold")
+g.legend.remove()
+g.add_legend(loc='upper right',
+			 bbox_to_anchor=(0.95, 0.95),
+			 title="Body",
+			 fontsize=12,
+			 frameon=True,
+			 facecolor="grey",
+			 edgecolor="black")
 	""")
 with st.container(height=500):
 	st.pyplot(fig=g, width=400, use_container_width=False)
