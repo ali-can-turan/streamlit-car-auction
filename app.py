@@ -8,6 +8,9 @@ import warnings
 warnings.simplefilter(action="ignore", category="SettingWithCopyWarning")
 import streamlit as st
 
+## info
+info = st.info("It might take up to 1 minute to render!")
+
 ## global settings
 st.set_page_config(page_title="Car Auction Analysis", layout="wide")
 # plt.rcParams['figure.figsize'] = (10, 6)
@@ -21,9 +24,6 @@ sns.set_style("darkgrid"), sns.set_style("darkgrid")
 original_warn = warnings.warn
 warnings.warn = lambda *args, **kwargs: None
 """)
-
-## info
-info = st.info("It might take up to 1 minute to render!")
 
 ## title
 st.title("Analysis of car auctions in the US")
